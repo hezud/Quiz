@@ -1,0 +1,50 @@
+package testeDB;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Random;
+
+public class Recuperar {
+
+	public String Visualizar() {
+		String resposta ="";
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rset = null;
+		String sqlQuery;
+		try {
+			Class.forName("org.apache.derby.jdbc.ClientDriver");
+			conn = DriverManager.getConnection("jdbc:derby://localhost:1527/quizDB;create=true", "app", "app");
+			stmt = conn.createStatement();
+			Random rnd = new Random();
+			int questao = rnd.nextInt(500);
+
+			sqlQuery = "SELECT * FROM PERGUNTAS WHERE NUMERO=" + questao;
+
+			rset = stmt.executeQuery(sqlQuery);
+			while (rset.next()) {
+
+				System.out.printf("pergunta: %s%n", rset.getString("pergunta"));
+				System.out.printf("1: %s%n", rset.getString("resposta1"));
+				System.out.printf("2: %s%n", rset.getString("resposta2"));
+				System.out.printf("3: %s%n", rset.getString("resposta3"));
+				System.out.printf("4: %s%n", rset.getString("resposta4"));
+				resposta = rset.getString("respostacerta");
+				break;
+				
+			}
+			conn.close();
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return resposta;
+
+	}
+
+}
