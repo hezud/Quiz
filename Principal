@@ -1,0 +1,40 @@
+package testeDB;
+
+import java.util.Scanner;
+
+public class Principal {
+
+	public static void main(String[] args) {
+		int acertos = 0;
+		int erros = 0;
+		int pontos = 0;
+				
+		Scanner sc = new Scanner(System.in);
+		Recuperar recuperar = new Recuperar();
+		int alternativa = 1;
+		int resposta = 0;
+		while (alternativa != 0) {
+			resposta = Integer.parseInt(recuperar.Visualizar());
+			System.out.println("0: Sair");
+			
+			System.out.print("Escolha a alternativa: ");
+			alternativa = sc.nextInt();
+
+			if (alternativa == resposta) {
+				System.out.printf("Você acertou!%n%n");
+				acertos++;
+				pontos += 100;
+			} else if((alternativa != resposta) && (alternativa > 0)){
+				System.out.printf("Você errou!%n%n");
+				erros++;
+				pontos -= 50;
+			}
+			
+				
+		}
+		System.out.printf("Parabéns!%nVocê acertou %d questão(ões) e errou %d questão(ões)%n%nNo total você fez %d ponto(s).",acertos,erros,pontos);
+		sc.close();
+
+	}
+
+}
